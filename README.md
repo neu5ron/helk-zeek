@@ -13,7 +13,6 @@
     ```
     b) build locally:
    ```shell script
-    
     cd helk-zeek
     docker build . -t helk-zeek
     ```
