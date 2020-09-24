@@ -1,4 +1,4 @@
-## Usage
+## Docker Usage
 
 1) Clone the Directory
 
@@ -36,3 +36,15 @@ docker run --rm \
 mv pcap/*.log $PCAP_LOG_DIR
 
 ```
+
+
+## Build on Ubuntu OS
+1) Clone the Directory
+
+`git clone https://github.com/neu5ron/helk-zeek`
+
+1) login as sudo  
+`sudo su`
+
+1) Run script  
+`/bin/sh .\build_zeek_on_ubuntu.sh`
