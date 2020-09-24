@@ -56,8 +56,8 @@ cd ${SRC_DIR}/zeek; \
 #	#echo "export PATH=$PATH:$ZEEKDIR/bin/" >> .bashrc
 #	# now confirm in PATH varaible:
 #	#tail --lines 1 .bashrc
-ENV ZEEK_HOME ${ZEEK_BASE_DIR}
-ENV PATH="${ZEEK_HOME}/bin:${PATH}"
+ZEEK_HOME ${ZEEK_BASE_DIR}
+PATH="${ZEEK_HOME}/bin:${PATH}"
 	
 
 ############ Install Zeek package manager and packages ############
