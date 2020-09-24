@@ -39,8 +39,7 @@ mv pcap/*.log $PCAP_LOG_DIR
 
 
 ## Build on Ubuntu OS
-1) Clone the Directory
-
+1) Clone the Directory  
 `git clone https://github.com/neu5ron/helk-zeek`
 
 1) login as sudo  
