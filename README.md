@@ -47,3 +47,6 @@ mv pcap/*.log $PCAP_LOG_DIR
 
 1) Run script  
 `/bin/sh .\build_zeek_on_ubuntu.sh`
+
+1) Run script to install packages
+`/bin/sh .\build_zeek_packages_on_ubuntu.sh`
