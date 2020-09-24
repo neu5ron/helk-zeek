@@ -48,16 +48,15 @@ cd ${SRC_DIR}/zeek; \
   cd ..;
 
 ############ Set environment variables & paths ############
-#ln -s $ZEEKDIR/bin/zeek /usr/bin/zeek \
-#	&& ln -s $ZEEKDIR/bin/zeekctl /usr/bin/zeekctl \
-#	&& ln -s $ZEEKDIR/bin/zeek-cut /usr/bin/zeek-cut \
-#	&& ln -s $ZEEKDIR/bin/zeek-config /usr/bin/zeek-config \
-#	&& ln -s $ZEEKDIR/bin/zeek-wrapper /usr/bin/zeek-wrapper
-#	#echo "export PATH=$PATH:$ZEEKDIR/bin/" >> .bashrc
+ln -s $ZEEK_BASE_DIR/bin/zeek /usr/bin/zeek \
+	&& ln -s $ZEEK_BASE_DIR/bin/zeekctl /usr/bin/zeekctl \
+	&& ln -s $ZEEK_BASE_DIR/bin/zeek-cut /usr/bin/zeek-cut \
+	&& ln -s $ZEEK_BASE_DIR/bin/zeek-config /usr/bin/zeek-config \
+	&& ln -s $ZEEK_BASE_DIR/bin/zeek-wrapper /usr/bin/zeek-wrapper
+echo "export PATH=$PATH:$ZEEK_BASE_DIR/bin/" >> .bashrc
+PATH="${ZEEK_HOME}/bin:${PATH}"
 #	# now confirm in PATH varaible:
 #	#tail --lines 1 .bashrc
-ZEEK_HOME ${ZEEK_BASE_DIR}
-PATH="${ZEEK_HOME}/bin:${PATH}"
 
 # Set interface/packet capture
 #setcap cap_net_raw,cap_net_admin=eip $ZEEKDIR/bin/zeek
