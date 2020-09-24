@@ -54,6 +54,7 @@ ln -s $ZEEK_BASE_DIR/bin/zeek /usr/bin/zeek \
 	&& ln -s $ZEEK_BASE_DIR/bin/zeek-config /usr/bin/zeek-config \
 	&& ln -s $ZEEK_BASE_DIR/bin/zeek-wrapper /usr/bin/zeek-wrapper
 echo "export PATH=$PATH:$ZEEK_BASE_DIR/bin/" >> .bashrc
+ZEEK_HOME=${ZEEK_BASE_DIR}
 PATH="${ZEEK_HOME}/bin:${PATH}"
 #	# now confirm in PATH varaible:
 #	#tail --lines 1 .bashrc
