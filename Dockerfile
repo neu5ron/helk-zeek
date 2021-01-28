@@ -5,14 +5,14 @@
 
 FROM otrf/helk-base:latest
 LABEL maintainer="Nate Guagenti @neu5ron"
-LABEL description="Dockerfile base for the HELK Zeek."
+LABEL description="Dockerfile for The HELK Zeek (FKA Bro) NSM/NDR."
 
 USER root
 
 # Zeek Version
-ARG zeek_ver='v3.0.10'
+ARG zeek_ver='v3.0.12'
 
-# Main user directory 
+# Main user directory
 ARG HOME_DIR=/root
 # Compiled sources
 ARG SRC_DIR=${HOME_DIR}/sources
@@ -21,13 +21,14 @@ ARG INSTALL_DIR=/usr/local
 # Zeek main directory
 ARG ZEEK_BASE_DIR=${INSTALL_DIR}/zeek
 RUN mkdir -p ${SRC_DIR} && \
-  mkdir /pcap && \
+  mkdir /logs && \
   mkdir -p ${ZEEK_BASE_DIR}
 
 ######## Install build requirements ########
 RUN apt-get update -qq && apt-get install -qqy --no-install-recommends \
 	cmake \
 	g++ \
+  ninja-build \
 	bison \
 	flex \
 	libmagic-dev \
@@ -50,13 +51,22 @@ RUN apt-get update -qq && apt-get install -qqy --no-install-recommends \
 ############ Download and install Zeek ############
 RUN cd ${SRC_DIR}; \
   git clone --recursive https://github.com/zeek/zeek -b $zeek_ver zeek
+#### Compile using make
 RUN cd ${SRC_DIR}/zeek; \
-  ./configure --prefix=${ZEEK_BASE_DIR};
+  ./configure --prefix=${ZEEK_BASE_DIR} --enable-debug --disable-auxtools --disable-python;
 RUN cd ${SRC_DIR}/zeek; \
   make -j 2;
 RUN cd ${SRC_DIR}/zeek; \
   make install; \
   cd ..;
+#### Compile using ninja (faster but eats all CPU, unable to lock to certain amount of cores without too much effort)
+#### Use Ninja to compile
+#RUN cd ${SRC_DIR}/zeek; \
+#  ./configure --prefix=${ZEEK_BASE_DIR} --enable-debug --disable-auxtools --disable-python --generator=Ninja;
+#RUN cd ${SRC_DIR}/zeek/build; \
+#  ninja;
+#RUN cd ${SRC_DIR}/zeek/build; \
+#  ninja install;
 
 ############ Set environment variables & paths ############
 #RUN ln -s $ZEEKDIR/bin/zeek /usr/bin/zeek \
@@ -69,10 +79,10 @@ RUN cd ${SRC_DIR}/zeek; \
 #	#tail --lines 1 .bashrc
 ENV ZEEK_HOME ${ZEEK_BASE_DIR}
 ENV PATH="${ZEEK_HOME}/bin:${PATH}"
-	
+
 
 ############ Install Zeek package manager and packages ############
-RUN pip3 install zkg \
+RUN pip3 -v install zkg \
   && zkg autoconfig
 ## Corelight packages
 RUN  zkg install --force zeek/corelight/got_zoom && \
@@ -97,7 +107,7 @@ RUN zkg install --force zeek/mitre-attack/bzar
 #RUN zkg install --force zeek/corelight/json-streaming-logs
 
 ## Not working But want to enable #TODO:, these all install but have runtime errors. actual errors not warning
-#RUN zkg install --force zeek/ukncsc/zeek-plugin-ikev2 
+#RUN zkg install --force zeek/ukncsc/zeek-plugin-ikev2
 #RUN zkg install --force zeek/salesforce/GQUIC_Protocol_Analyzer
 #RUN zkg install --force zeek/corelight/bro-quic || cat /root/.zkg/logs/bro-quic-build.log
 #RUN zkg install --force zeek/stratosphereips/IRC-Zeek-package
@@ -119,5 +129,5 @@ RUN zkg install --force zeek/mitre-attack/bzar
 # Cleanup
 RUN rm -R ${SRC_DIR}/zeek
 
-WORKDIR /pcap
+WORKDIR /logs
 ENTRYPOINT ["zeek"]

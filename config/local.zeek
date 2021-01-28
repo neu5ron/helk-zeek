@@ -2,7 +2,7 @@
 # Author: Nate (@neu5ron)
 # License: GPL-3.0
 
-#TODO: enable ntp analyzer 
+#TODO: enable ntp analyzer
 ## Applicable to framework
 @load misc/loaded-scripts
 @load tuning/defaults
@@ -18,6 +18,9 @@ redef ignore_checksums = T;
 @load frameworks/software/vulnerable
 @load frameworks/software/version-changes
 @load-sigs frameworks/signatures/detect-windows-shells
+
+# Load all packages installed via zkg
+@load packages
 
 ## DNS
 @load protocols/dns/detect-external-names
