@@ -99,7 +99,7 @@ RUN zkg install --force zeek/fatemabw/kyd
 RUN zkg install --force zeek/lexibrent/zeek-EternalSafety
 RUN zkg install --force zeek/micrictor/smbfp
 RUN zkg install --force zeek/theparanoids/rdfp
-RUN zkg install --force zeek/scebro/ldap-analyzer
+#RUN zkg install --force zeek/scebro/ldap-analyzer #TODO: i think it has disappeared.. as of 2021-01-07 https://github.com/SoftwareConsultingEmporium does not even exist let alone the repo.
 RUN zkg install --force zeek/mitre-attack/bzar
 
 ## Enable as necessary / future

@@ -19,19 +19,26 @@ for example, if your PCAP was named `super_awesome_exploit.pcap` then a director
 ```shell script
 DIR_BASE_NAME="/tmp/helk_zeek";  LOG_DIR_BASE_NAME="$DIR_BASE_NAME/logs"; mkdir -p $LOG_DIR_BASE_NAME
 #PCAP_DIR_NAME="echo ${PCAP_FILE_NAME} | sed 's/\.[a-z.]*$//g'"
-#mkdir $PCAP_LOG_DIR
 
 
 TIME_RUN_NOW=$(date -u +"%FT%H%MZ")
 #PCAP_LOG_DIR="${LOG_DIR_BASE_NAME}/${PCAP_LOG_DIR_NAME}"
 PCAP_LOG_DIR="${LOG_DIR_BASE_NAME}/${TIME_RUN_NOW}"
+PCAP_LOG_DIR="$PWD/run_time_logs"
+mkdir $PCAP_LOG_DIR
 
 docker run --rm \
-         -v `$LOG_DIR_BASE_NAME`:/logs \
+         -v `pwd`:/logs \
          -v `pwd`/config/local.zeek:/usr/local/zeek/share/zeek/site/local.zeek \
-         helk-zeek -C -r $Path_To_PCAP local # "Site::local_nets += { 192.168.0.0/24 }" \
-
+         helk-zeek -C local \
+         -r \
+         $Path_To_PCAP #from current directory where you cloned repo #example: ./pcap/test.pcap
 mv pcap/*.log $PCAP_LOG_DIR
+
+# if wanting to define local subnets, then add following (as example)
+  # "Site::local_nets += { 192.168.0.0/24 }"
+
+
 
 ```
 

@@ -41,3 +41,5 @@ Temporary Items
 # User-specific stuff
 .idea/
 pcap/zeek_logs*
+/run_time_logs/
+/logs/
